@@ -1,46 +1,42 @@
-import React from 'react'
+import { CircleDot } from "lucide-react"
 
 export default function Process() {
   return (
-    <section className="py-10 bg-white sm:py-16 lg:py-24">
-    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">How does it work?</h2>
-            <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
-        </div>
-
-        <div className="relative mt-12 lg:mt-20">
-            <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
-                <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg" alt="" />
+    <section className="py-16 px-4 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-4">How does it work?</h2>
+        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          Connect with your alma mater and fellow alumni through our easy-to-use platform. Here's how to get started:
+        </p>
+        
+        <div className="grid md:grid-cols-3 gap-8 relative">
+          <div className="relative">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">1</div>
+            <div className="bg-gray-50 p-6 rounded-lg text-center h-full flex flex-col justify-between">
+              <h3 className="text-xl font-semibold mb-4">Create your profile</h3>
+              <p className="text-gray-600 mb-4">Sign up and create your alumni profile. Add your graduation year, major, and current profession to connect with like-minded peers.</p>
             </div>
-
-            <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
-                <div>
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
-                        <span className="text-xl font-semibold text-gray-700"> 1 </span>
-                    </div>
-                    <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Create a free account</h3>
-                    <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-                </div>
-
-                <div>
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
-                        <span className="text-xl font-semibold text-gray-700"> 2 </span>
-                    </div>
-                    <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Build your website</h3>
-                    <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-                </div>
-
-                <div>
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
-                        <span className="text-xl font-semibold text-gray-700"> 3 </span>
-                    </div>
-                    <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Release & Launch</h3>
-                    <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-                </div>
+          </div>
+          
+          <div className="relative">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">2</div>
+            <div className="bg-gray-50 p-6 rounded-lg text-center h-full flex flex-col justify-between">
+              <h3 className="text-xl font-semibold mb-4">Explore opportunities</h3>
+              <p className="text-gray-600 mb-4">Discover job postings, mentorship programs, and networking events tailored to your alma mater's community.</p>
             </div>
+          </div>
+          
+          <div className="relative">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">3</div>
+            <div className="bg-gray-50 p-6 rounded-lg text-center h-full flex flex-col justify-between">
+              <h3 className="text-xl font-semibold mb-4">Engage & grow</h3>
+              <p className="text-gray-600 mb-4">Participate in discussions, attend virtual events, and expand your professional network within your alumni community.</p>
+            </div>
+          </div>
+          
+          <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -z-10"></div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
   )
 }
