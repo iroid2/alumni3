@@ -9,6 +9,7 @@ export default function page() {
     <div className='pt-[140px]'>
       <SearchCompo title='Search' placeholder='Search from Employed' />
       <AlumniTableDetails/>
+      
     </div>
   )
 }

@@ -3,35 +3,37 @@
 import EmailTemplate from "@/components/emails/email-template";
 import db from "@/utils/db";
 import bcrypt from "bcrypt";
-import {Resend} from "resend";
+import { Resend } from "resend";
 
-export async function createUser(data:any) {
+export async function createUser(data: any) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-    console.log(`Data actions:`,data)
-    const {email,
-        fullName,
-        gender,
-        maritalStatus,
-        password,
-        role}=data
+  console.log(`Data actions:`, data)
+  const {
+    email,
+    fullName,
+    gender,
+    maritalStatus,
+    password,
+    role,
+    profile,
+  } = data
 
-    try {
-        const existingUser = await db.user.findUnique({
-            where: {
-              email,
-            },
-          });
-        if(existingUser){
-          console.log(`User Aready Exists:`, existingUser)
-            return {
-                data:null,
-                status:404,
-                error:`user with email ${email} already exists`,
-                // messege:"use another email"
-            }
-        }
-         // Encrypt the Password =>bcrypt
+  try {
+    const existingUser = await db.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (existingUser) {
+      console.log(`User Already Exists:`, existingUser)
+      return {
+        data: null,
+        status: 404,
+        error: `user with email ${email} already exists`,
+      }
+    }
+    // Encrypt the Password =>bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
     //Generate Token
     const generateToken = () => {
@@ -40,50 +42,56 @@ export async function createUser(data:any) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
     const userToken = generateToken();
-    console.log(`User Token:`,userToken)
+    console.log(`User Token:`, userToken)
     const newUser = await db.user.create({
-      data:{
+      data: {
         email,
         fullName,
         gender,
         maritalStatus,
-        password:hashedPassword,
+        password: hashedPassword,
         role,
         token: userToken,
+        profile: {
+          create: profile // This will create the profile with all the fields
+        }
+      },
+      include: {
+        profile: true,
       }
     });
     console.log('User Created:', newUser)
 
-     //Send an Email with the Token on the link as a search param
-     const token = newUser.token;
-     const userId = newUser.id;
-     const firstName = newUser.fullName?.split(" ")[0];
-     const linkText = "Verify your Account ";
-     const message =
-       "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
-     const sendMail = await resend.emails.send({
-       from: "LeticiaAlmuni <info@comedev.org>",
-       to: newUser.email as string,
-       subject: "Verify Your Email Address",
-       react: EmailTemplate({ firstName, token, linkText, message }),
-     });
-     console.log(`Token Sent:`,token);
-     console.log(`Email Sent:`,sendMail);
-     console.log(newUser);
+    //Send an Email with the Token on the link as a search param
+    const token = newUser.token;
+    const userId = newUser.id;
+    const firstName = newUser.fullName?.split(" ")[0];
+    const linkText = "Verify your Account ";
+    const message =
+      "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
+    const sendMail = await resend.emails.send({
+      from: "LeticiaAlmuni <info@comedev.org>",
+      to: newUser.email as string,
+      subject: "Verify Your Email Address",
+      react: EmailTemplate({ firstName, token, linkText, message }),
+    });
+    console.log(`Token Sent:`, token);
+    console.log(`Email Sent:`, sendMail);
+    console.log(newUser);
 
     return {
-        data:newUser,
-        error:null,
-        status:201
+      data: newUser,
+      error: null,
+      status: 201
     }
-    } catch (error) {
-        console.log(`Error from actions:`,error)
-        return {
-            data:null,
-            error:error,
-            status:409
-        }
+  } catch (error) {
+    console.log(`Error from actions:`, error)
+    return {
+      data: null,
+      error: error,
+      status: 409
     }
+  }
 }
 
 export async function updateUserById(id:string) {
@@ -156,5 +164,14 @@ export async function getUserById(id:string) {
           error:error,
           status:409
       }
+  }
+}
+
+export async function getAllUsers(){
+  try {
+    const allAlmuni= await db.user.findMany()
+    return allAlmuni
+  } catch (error) {
+    console.log(error)
   }
 }

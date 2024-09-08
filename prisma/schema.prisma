@@ -36,6 +36,7 @@ model User {
   token         Int       @default(1442678191)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  profile        Profile?
 }
 
 model Account {
@@ -56,4 +57,47 @@ model Account {
  
   @@unique([provider, providerAccountId])
 }
- 
+
+model Profile {
+  id                     String  @id @default(auto()) @map("_id") @db.ObjectId
+  user                   User    @relation(fields: [userId], references: [id])
+  userId                 String  @unique @db.ObjectId
+  profilePicture         String?
+  graduationYear         String?
+  degree                 String?
+  majorFieldOfStudy      String?
+  currentPosition        String?
+  contactInformation     String?
+  achievements           String?
+  biography              String?
+  interests              String?
+  socialMediaLinks       String?
+  alumniActivities       String?
+  permanentAddress       String?
+  phoneNumber            String?
+  dateOfBirth            String?
+  religiousAfflictions   String?
+  localResidence         String?
+  personalSkills         String?
+  courseStudied          String?
+  employmentStatus       String?
+  organization           String?
+  jobAcquisitionTime     String?
+  selectedAccordingToQualification String?
+  jobInLineWithStudy     String?
+  studyProgramRelevance  String?
+  curriculumRecommendations String?
+  businessType           String?
+  businessRelatedToStudy String?
+  selfEmploymentReason   String?
+  capitalSource          String?
+  skillsRelevance        String?
+  skillsRecommendations  String?
+  employedBefore         String?
+  reasonLeftJob          String?
+  skillsNeeded           String?
+  supportNeeded          String?
+  courseRelevance        String?
+  recommendations        String?
+}
+
