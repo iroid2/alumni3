@@ -14,7 +14,7 @@ export default function VerifyEmail() {
  
 
   return (
-    <div className="py-8  w-full  px-8  flex flex-col gap-5 ">
+    <div className="py-8  w-full  px-8  flex flex-col gap-5 bg-red-500 ">
     
                     <div className="text-center flex items-center flex-col">
                       <LockKeyholeOpenIcon />

@@ -85,7 +85,7 @@ async function onSubmit(data: registerProps) {
       <div>
        
         <div className="py-3">
-        <SubmitButton  title='Login' className='w-full ' loadingTitle='' loading={loading}  />
+        <SubmitButton  title='Login'     loading={loading}  />
         </div>
       </div>
       

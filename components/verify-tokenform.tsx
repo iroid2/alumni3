@@ -88,8 +88,8 @@ export default function VerifyTokenForm({
             <FormItem>
               <FormLabel>Enter Token Here</FormLabel>
               <FormControl>
-                <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
+                <InputOTP maxLength={6} {...field} >
+                  <InputOTPGroup >
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
                     <InputOTPSlot index={2} />

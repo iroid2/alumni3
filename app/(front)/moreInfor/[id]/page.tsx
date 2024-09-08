@@ -1,10 +1,10 @@
-import MoreInforForm from '@/components/Forms/MoreInforForm'
+// import MoreInforForm from '@/components/Forms/MoreInforForm'
 import React from 'react'
 
 export default function page() {
   return (
     <div className='pt-[140px]'>
-      <MoreInforForm/>
+       <h1>h</h1>
     </div>
   )
 }

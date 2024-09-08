@@ -1,54 +1,31 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Loader, Plus } from "lucide-react";
-import React from "react";
-type SubmitButtonProps = {
+import React from 'react';
+
+interface SubmitButtonProps {
   title: string;
-  loadingTitle?: string;
-  className?: string;
-  loaderIcon?: any;
-  buttonIcon?: any;
   loading: boolean;
-  showIcon?: boolean;
-  size?: "default" | "sm" | "lg" | "icon" | null | undefined;
-};
-export default function SubmitButton({
-  title,
-  loadingTitle = "Saving Please wait...",
-  loading,
-  className,
-  loaderIcon = Loader,
-  buttonIcon = Plus,
-  showIcon = true,
-}: SubmitButtonProps) {
-  const LoaderIcon = loaderIcon;
-  const ButtonIcon = buttonIcon;
-  return (
-    <>
-      {loading ? (
-        <button
-          type="button"
-          disabled
-          className={cn(
-            "items-center flex justify-center rounded-md bg-indigo-600/55 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-not-allowed",
-            className
-          )}
-        >
-          <LoaderIcon className="w-4 h-4 animate-spin mr-2" />
-          {loadingTitle}
-        </button>
-      ) : (
-        <button
-          type="submit"
-          className={cn(
-            "flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-            className
-          )}
-        >
-          {showIcon && <ButtonIcon className="w-4 h-4 mr-2" />}
-          {title}
-        </button>
-      )}
-    </>
-  );
+  disabled?: boolean;
 }
+
+const SubmitButton: React.FC<SubmitButtonProps> = ({ title, loading, disabled }) => {
+  return (
+    <button
+      type="submit"
+      disabled={disabled || loading}
+      className={`px-4 py-2 rounded ${disabled || loading ? 'bg-gray-500' : 'bg-blue-500'} text-white`}
+    >
+      {loading ? (
+        <span className="flex items-center">
+          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Submitting...
+        </span>
+      ) : (
+        title
+      )}
+    </button>
+  );
+};
+
+export default SubmitButton;
