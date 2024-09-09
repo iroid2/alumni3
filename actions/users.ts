@@ -4,6 +4,7 @@ import EmailTemplate from "@/components/emails/email-template";
 import db from "@/utils/db";
 import bcrypt from "bcrypt";
 import { Resend } from "resend";
+import { User } from "@prisma/client";
 
 export async function createUser(data: any) {
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -167,11 +168,55 @@ export async function getUserById(id:string) {
   }
 }
 
-export async function getAllUsers(){
+export async function getAllUsers(): Promise<User[]> {
   try {
-    const allAlmuni= await db.user.findMany()
-    return allAlmuni
+    const allAlumni = await db.user.findMany({
+      include: {
+        profile: true
+      }
+    })
+    return allAlumni
   } catch (error) {
     console.log(error)
+    return []
+  }
+}
+
+export async function getUserByEmail(email: string) {
+  console.log("getUserByEmail called with email:", email);
+  try {
+    const user = await db.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        isVerfied: true,
+      }
+    });
+
+    console.log("User found:", user);
+
+    if (!user) {
+      return {
+        data: null,
+        status: 404,
+        error: `User with email ${email} not found`,
+      }
+    }
+
+    return {
+      data: user,
+      error: null,
+      status: 200
+    }
+  } catch (error) {
+    console.error(`Error fetching user by email:`, error);
+    return {
+      data: null,
+      error: error,
+      status: 500
+    }
   }
 }

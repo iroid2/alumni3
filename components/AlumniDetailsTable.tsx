@@ -1,8 +1,9 @@
-// "use client"
+"use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
-import { MoreHorizontal } from "lucide-react"
-
+import { usePathname } from "next/navigation"
+import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,14 +30,108 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getAllUsers } from "@/actions/users"
+import { Input } from "@/components/ui/input"
 
-export default async function AlumniTableDetails() {
-  const almuniz= await getAllUsers()
-  // console.log(almuniz)
+// Update the Profile type with the new fields
+type Profile = {
+  profilePicture?: string;
+  graduationYear?: string;
+  courseStudied?: string;
+  employmentStatus?: string;
+  religiousAfflictions?: string;
+  localResidence?: string;
+  personalSkills?: string;
+  organization?: string;
+  // Add other profile fields as needed
+}
+
+type Alumni = {
+  id: string;
+  fullName?: string;
+  maritalStatus: string;
+  profile?: Profile;
+  // Add other user fields as needed
+}
+
+const ITEMS_PER_PAGE = 5
+
+export default function AlumniTableDetails() {
+  const pathname = usePathname()
+  const [searchQuery, setSearchQuery] = useState("")
+  const [alumni, setAlumni] = useState<Alumni[]>([])
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    async function fetchAlumni() {
+      try {
+        const data = await getAllUsers()
+        setAlumni(data as Alumni[])
+      } catch (error) {
+        console.error("Failed to fetch alumni:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAlumni()
+  }, [])
+
+  const filteredAlumni = alumni.filter((alumni: Alumni) => {
+    const matchesEmploymentStatus = 
+      (pathname.includes("/employed") && alumni.profile?.employmentStatus === "employed") ||
+      (pathname.includes("/unemployed") && alumni.profile?.employmentStatus === "unemployed") ||
+      (pathname.includes("/self-employed") && alumni.profile?.employmentStatus === "self-employed") ||
+      !pathname.includes("/employed") && !pathname.includes("/unemployed") && !pathname.includes("/self-employed")
+
+    const searchableFields = [
+      alumni.fullName,
+      alumni.profile?.courseStudied,
+      alumni.profile?.graduationYear,
+      alumni.profile?.localResidence,
+      alumni.profile?.organization,
+      alumni.profile?.personalSkills,
+      alumni.profile?.religiousAfflictions
+    ]
+
+    const matchesSearch = searchQuery === '' || searchableFields.some(field => 
+      field?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+
+    return matchesEmploymentStatus && matchesSearch
+  })
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery])
+
+  const pageCount = Math.ceil(filteredAlumni.length / ITEMS_PER_PAGE)
+  const paginatedAlumni = filteredAlumni.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  )
+
+  const goToNextPage = () => setCurrentPage((page) => Math.min(page + 1, pageCount))
+  const goToPreviousPage = () => setCurrentPage((page) => Math.max(page - 1, 1))
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Alumni Detils</CardTitle>
+        <CardTitle>Alumni Details</CardTitle>
+        <div className="flex items-center space-x-2">
+          <Search className="w-4 h-4 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="Search alumni..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-sm"
+          />
+        </div>
       </CardHeader>
       <CardContent>
         <Table>
@@ -57,7 +152,7 @@ export default async function AlumniTableDetails() {
           </TableHeader>
           <TableBody>
            {
-            almuniz?.map((alumni,i)=>{
+            paginatedAlumni?.map((alumni,i)=>{
               return(    <TableRow key={alumni.id || i}>
                 <TableCell className="  sm:table-cell">
                   <Image
@@ -72,7 +167,7 @@ export default async function AlumniTableDetails() {
                   {alumni.fullName}
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline">2000</Badge>
+                  <Badge variant="outline">{alumni.profile?.graduationYear}</Badge>
                 </TableCell>
                 <TableCell className="  md:table-cell">Engneering</TableCell>
                 <TableCell className="hidden md:table-cell">{alumni.maritalStatus}</TableCell>
@@ -88,9 +183,41 @@ export default async function AlumniTableDetails() {
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col space-y-4">
         <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>32</strong> products
+          Showing <strong>{paginatedAlumni.length}</strong> of <strong>{filteredAlumni.length}</strong> alumni
+        </div>
+        <div className="flex justify-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+          <div className="flex items-center space-x-2">
+            {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </Button>
+            ))}
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToNextPage}
+            disabled={currentPage === pageCount}
+          >
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </CardFooter>
     </Card>

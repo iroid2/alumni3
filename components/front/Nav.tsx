@@ -2,6 +2,7 @@ import React from 'react'
 import { NavSheet } from './NavSheet'
 import Link from 'next/link';
 import NavLinks from './NavLinks';
+import UserProfile from './jobslayout/usericons/UserProfile';
 
 
 export default function Nav() {
@@ -44,7 +45,9 @@ export default function Nav() {
                 >
                     Join community
                 </a>
+                <UserProfile/>
             </div>
+          
         </div>
     </div>
 </header>

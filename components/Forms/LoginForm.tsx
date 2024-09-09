@@ -1,4 +1,3 @@
-
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,14 +7,14 @@ import TextInput from '../global/Textinput'
 import SubmitButton from '../global/SubmitButton'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { signIn } from "next-auth/react";
-import { getServerSession } from 'next-auth'
+import { signIn } from "next-auth/react"
+import { getUserByEmail } from '@/actions/users'  // Import the new action
 
 export type registerProps={
   email:string
   password:string  
 }
-import { authOptions } from '@/lib/authOptions'
+
 export default function LoginForm() {
   const {register,handleSubmit,reset,formState:{errors}}=useForm<registerProps>()
   const [loading,setLoading]=useState(false)
@@ -24,30 +23,48 @@ const [toggleIcon,setToggleIcon]=useState(false)
 const router = useRouter()
  
 async function onSubmit(data: registerProps) {
-//   const session = await getServerSession(authOptions)
-
-// const user = session?.user
-// console.log(user)
   setLoading(true);
   try {
     console.log("Attempting to sign in with credentials:", data);
-    const loginData = await signIn("credentials", {
+    const result = await signIn("credentials", {
       ...data,
       redirect: false,
     });
-    console.log("SignIn response:", loginData);
-    if (loginData?.error) {
+
+    console.log("SignIn result:", result);
+
+    if (result?.error) {
+      console.error("Sign-in error:", result.error);
       toast.error("Sign-in error: Check your credentials");
     } else {
       reset();
       toast.success("Login Successful");
-      // router.push(`/moreInfor/${user?.id}`);
+      
+      console.log("Fetching user data for email:", data.email);
+      const userResponse = await getUserByEmail(data.email);
+      console.log("User data response:", userResponse);
+      
+      if (userResponse.status === 200 && userResponse.data) {
+        const userData = userResponse.data;
+        console.log("User role:", userData.role);
+        if (userData.role === 'ADMIN') {
+          console.log("Redirecting to admin dashboard");
+          router.push('/admin-dashboard');
+        } else {
+          console.log("Redirecting to home page");
+          router.push('/');
+        }
+      } else {
+        console.error("Error fetching user data:", userResponse.error);
+        toast.error("Error fetching user data");
+        router.push('/');  // Fallback to home page
+      }
     }
   } catch (error) {
-    console.error("Network Error:", error);
-    toast.error("Its seems something is wrong with your Network");
-  }finally{
-    setLoading(false)
+    console.error("Login Error:", error);
+    toast.error("An error occurred during login");
+  } finally {
+    setLoading(false);
   }
 }  
   return (
@@ -103,6 +120,4 @@ async function onSubmit(data: registerProps) {
    </div>
   )
 }
- 
- 
 

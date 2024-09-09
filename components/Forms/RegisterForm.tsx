@@ -88,6 +88,7 @@ export default function RegisterForm({ role }: { role?: string }) {
 
   const onDrop = React.useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
+    handleUpload(acceptedFiles);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -96,11 +97,10 @@ export default function RegisterForm({ role }: { role?: string }) {
     maxFiles: 1,
   });
 
-  const handleUpload = async () => {
-    if (files.length > 0) {
+  const handleUpload = async (filesToUpload: File[] = files) => {
+    if (filesToUpload.length > 0) {
       try {
-        const uploadResult = await startUpload(files);
-        console.log("Upload result:", uploadResult);
+        await startUpload(filesToUpload);
       } catch (error) {
         console.error("Upload error:", error);
         toast.error('Image upload failed');
@@ -160,18 +160,11 @@ export default function RegisterForm({ role }: { role?: string }) {
                   {files.length > 0 && (
                     <div>
                       <img src={URL.createObjectURL(files[0])} alt="Preview" className="mt-2 max-w-xs" />
-                      <button 
-                        type="button" 
-                        onClick={handleUpload} 
-                        disabled={isUploading} 
-                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                      >
-                        {isUploading ? 'Uploading...' : 'Upload'}
-                      </button>
+                      {isUploading && <p>Uploading...</p>}
                     </div>
                   )}
                   {uploadedImageUrl && (
-                    <p className="mt-2 text-green-600">Image uploaded successfully! URL: {uploadedImageUrl}</p>
+                    <p className="mt-2 text-green-600">Image uploaded successfully!</p>
                   )}
                 </div>
                 <TextInput register={register} errors={errors} label="Full Name" name="fullName" />

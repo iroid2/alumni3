@@ -67,9 +67,3 @@
     @apply bg-background text-foreground;
   }
 }
-.bgImg{
-  background: url('https://img.freepik.com/free-photo/group-friends-relaxing-together-outdoors_23-2148505487.jpg?t=st=1724666753~exp=1724670353~hmac=26b288ba0ea860656ec0bb02e269754ca9a8d776da42efe6c22effb898af0c8e&w=826');
-  background-size:  100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
