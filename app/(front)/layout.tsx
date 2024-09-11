@@ -1,18 +1,38 @@
+'use client'
 import Banner from '@/components/front/Banner'
 import Footer from '@/components/front/Footer'
-import Hero from '@/components/front/Hero'
 import Nav from '@/components/front/Nav'
+import { SessionProvider, useSession } from 'next-auth/react'
+import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
 
-export default function layout({children}:{children:ReactNode}) {
+function LayoutContent({ children }: { children: ReactNode }) {
+  const { data: session, status } = useSession()
+  const pathname = usePathname()
+
+  const isHomePage = pathname === '/'
+  const isAuthenticated = status === 'authenticated'
+
   return (
     <div className='overflow-x-hidden relative'>
-        <div className=" fixed z-50 top-0 w-full">
-        <Banner/>
-        <Nav/>
-        </div>
-        {children}
-        <Footer/>
-        </div>
+      <div className="fixed z-50 top-0 w-full">
+        {!isHomePage && isAuthenticated && (
+          <>
+            <Banner />
+            <Nav />
+          </>
+        )}
+      </div>
+      {children}
+      <Footer />
+    </div>
+  )
+}
+
+export default function Layout({ children }: { children: ReactNode }) {
+  return (
+    <SessionProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </SessionProvider>
   )
 }

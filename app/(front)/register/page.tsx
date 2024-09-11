@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div className='pt-20'  suppressHydrationWarning={true}>
+    <div className=''  suppressHydrationWarning={true}>
         <RegisterForm role='USER' />
     </div>
   )

@@ -1,3 +1,4 @@
+import LoginForm from '@/components/Forms/LoginForm'
 import Footer from '@/components/front/Footer'
 import Hero from '@/components/front/Hero'
 import { DockDemo } from '@/components/front/jobslayout/usericons/Dock'
@@ -11,11 +12,15 @@ export default function page() {
   return (
     <div className='relative'>
       {/* <Nav/> */}
-      <Hero/>
+      {/* <Hero/>
       <Process/>
       <FeedBack/>
       <Faq/>
-      <DockDemo/>
+      <DockDemo/> */}
+     <div className= "">
+     <LoginForm/>
+     </div>
+
     </div>
   )
 }

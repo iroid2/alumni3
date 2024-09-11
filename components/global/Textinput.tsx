@@ -1,99 +1,43 @@
-import { cn } from "@/lib/utils";
-import React from "react";
-import {
-Tooltip,
-TooltipContent,
-TooltipProvider,
-TooltipTrigger,
-} from "@/components/ui/tooltip";
- 
-import { CircleHelp, Mail } from "lucide-react";
+import React from 'react'
+import { UseFormRegister, FieldErrors, RegisterOptions } from 'react-hook-form'
+
 type TextInputProps = {
-register: any,
-errors: any,
-label: string,
-type?: string,
-name: string,
-toolTipText?: string,
-unit?: string,
-placeholder?: string,
-icon?: any,
-};
-export default function TextInput({
-register,
-errors,
-label,
-type = "text",
-name,
-toolTipText,
-unit,
-icon,
-placeholder,
-}: TextInputProps) {
-const Icon = icon;
-return (
- <div>
-   <div className="flex space-x-2 items-center">
-     <label
-       htmlFor={name}
-       className="block text-sm font-medium leading-6 text-gray-900"
-     >
-       {label}
-     </label>
-     {toolTipText && (
-       <TooltipProvider>
-         <Tooltip>
-           <TooltipTrigger asChild>
-             <button>
-               <CircleHelp className="w-4 h-4 text-slate-500" />
-             </button>
-           </TooltipTrigger>
-           <TooltipContent>
-             <p>{toolTipText}</p>
-           </TooltipContent>
-         </Tooltip>
-       </TooltipProvider>
-     )}
-   </div>
-   <div className="mt-2">
-     <div className="relative rounded-md ">
-       {icon && (
-         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-           <Icon className="text-slate-300 w-4 h-4" />
-         </div>
-       )}
-       <input
-         id={name}
-         type={type}
-         {...register(`${name}`, { required: true })}
-         className={cn(
-           "block w-full px-5 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-sm",
-           (errors[`${name}`] && "focus:ring-red-500 pl-8") ||
-             (icon && "pl-8")
-         )}
-         placeholder={placeholder || label}
-       />
-       {unit && (
-         <p className="bg-white py-2 px-3 rounded-tr-md rounded-br-md absolute inset-y-0 right-1 my-[2px] flex items-center">
-           {unit}
-         </p>
-       )}
-     </div>
-     {errors[`${name}`] && (
-       <span className="text-xs text-red-600">{label} is required</span>
-     )}
-   </div>
- </div>
-);
+  register: UseFormRegister<any>
+  errors: FieldErrors
+  label: string
+  name: string
+  type?: string
+  rules?: RegisterOptions
+  className?: string
+  placeholder?: string
 }
 
-// usage
+const TextInput: React.FC<TextInputProps> = ({ 
+  register, 
+  errors, 
+  label, 
+  name, 
+  type = 'text', 
+  rules,
+  className,
+  placeholder
+}) => {
+  return (
+    <div>
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}</label>
+      <input
+        type={type}
+        {...register(name, rules)}
+        className={`mt-1 block w-full rounded-md py-1 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${errors[name] ? 'border-red-500' : ''} ${className}`}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="mt-1 text-sm text-red-600">
+          {errors[name]?.message as string}
+        </p>
+      )}
+    </div>
+  )
+}
 
-{/* <div className="grid gap-3 pt-3">
-<TextInput
-  register={register}
-  errors={errors}
-  label="Product Name"
-  name="name"
-/>
-</div> */}
+export default TextInput
