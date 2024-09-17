@@ -85,10 +85,11 @@ export default function LoginForm() {
 
   return (
     <div className="  bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Welcome to Alumn
+       <h2 className="mt-6 text-center md:w-[50%] w-full mx-auto text-3xl font-extrabold text-gray-900">
+          KYAMBOGO UNIVERSITY ALUMNI TRACKING AND TRACER STUDY SYSTEM
         </h2>
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+       
         <p className="mt-2 text-center text-sm text-gray-600">
           Your gateway to alumni connections and opportunities
         </p>

@@ -77,7 +77,7 @@ export default function RegisterForm({ role }: { role?: string }) {
         console.log("Uploaded URL:", uploadedUrl);
         setUploadedImageUrl(uploadedUrl);
         setValue('profile.profilePicture', uploadedUrl);
-        toast.success('Image uploaded successfully!');
+        toast.success('Thank you for taking part in this survey!');
       }
     },
     onUploadError: (error: Error) => {
@@ -210,7 +210,7 @@ export default function RegisterForm({ role }: { role?: string }) {
                   </select>
                 </div>
                 <TextInput register={register} errors={errors} label="Major/Field of Study" name="profile.majorFieldOfStudy" className={inputStyle} rules={{ required: "Major is required" }} />
-                <TextInput register={register} errors={errors} label="Current Position" name="profile.currentPosition" className={inputStyle} />
+                {/* <TextInput register={register} errors={errors} label="Current Position" name="profile.currentPosition" className={inputStyle} /> */}
                 <TextInput register={register} errors={errors} label="Course Studied" name="profile.courseStudied" className={inputStyle} />
               </div>
             )}
@@ -222,13 +222,20 @@ export default function RegisterForm({ role }: { role?: string }) {
                 <TextInput register={register} errors={errors} label="Permanent Address" name="profile.permanentAddress" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Local Residence" name="profile.localResidence" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Date of Birth" name="profile.dateOfBirth" type="date" className={inputStyle} />
-                <TextInput register={register} errors={errors} label="Religious Affiliations" name="profile.religiousAfflictions" className={inputStyle} />
+                {/* <TextInput register={register} errors={errors} label="Religious Affiliations" name="profile.religiousAfflictions" className={inputStyle} /> */}
+                <select {...register("profile.religiousAfflictions")}  className={selectStyle}>
+                    <option value="">Select Religion  </option>
+                    <option value="employed">Anglican</option>
+                    <option value="self-employed">Catholic</option>
+                    <option value="unemployed">Moslem</option>
+                    <option value="student">Other</option>
+                  </select>
               </div>
             )}
 
             {step === 4 && (
               <div className="space-y-4">
-                <TextInput register={register} errors={errors} label="Achievements" name="profile.achievements" className={inputStyle} />
+                {/* <TextInput register={register} errors={errors} label="Achievements" name="profile.achievements" className={inputStyle} /> */}
                 <TextInput register={register} errors={errors} label="Biography" name="profile.biography" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Interests" name="profile.interests" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Social Media Links" name="profile.socialMediaLinks" className={inputStyle} />
@@ -270,7 +277,7 @@ export default function RegisterForm({ role }: { role?: string }) {
                       </select>
                     </div>
                     <TextInput register={register} errors={errors} label="Study Program Relevance" name="profile.studyProgramRelevance" className={inputStyle} />
-                    <TextInput register={register} errors={errors} label="Curriculum Recommendations" name="profile.curriculumRecommendations" className={inputStyle} />
+                    <TextInput register={register} errors={errors} label="Curriculum Recommendations to NCDC" name="profile.curriculumRecommendations" className={inputStyle} />
                   </>
                 )}
                 {watch("profile.employmentStatus") === "self-employed" && (
@@ -278,9 +285,18 @@ export default function RegisterForm({ role }: { role?: string }) {
                     <TextInput register={register} errors={errors} label="Business Type" name="profile.businessType" className={inputStyle} />
                     <TextInput register={register} errors={errors} label="Business Related to Study" name="profile.businessRelatedToStudy" className={inputStyle} />
                     <TextInput register={register} errors={errors} label="Self Employment Reason" name="profile.selfEmploymentReason" className={inputStyle} />
-                    <TextInput register={register} errors={errors} label="Capital Source" name="profile.capitalSource" className={inputStyle} />
+                    {/* <TextInput register={register} errors={errors} label="Capital Source" name="profile.capitalSource" className={inputStyle} /> */}
+                    <label htmlFor="capitalSource" className={labelStyle}>Capital Source</label>
+                    <select {...register("profile.capitalSource",  { required: "Capital source is required" })} className={selectStyle}>
+                      <option value="">Select Capital Source</option>
+                      <option value="Personal Savings">Personal Savings</option>
+                      <option value="Goverment Grant ">Goverment Grant  </option>
+                      <option value="Bank Loans">Bank Loans</option>
+                      <option value="Angle Investors">Angel Investors </option>
+                      <option value="Family Support">Family Support   </option>
+                    </select>
                     <TextInput register={register} errors={errors} label="Skills Relevance" name="profile.skillsRelevance" className={inputStyle} />
-                    <TextInput register={register} errors={errors} label="Skills Recommendations" name="profile.skillsRecommendations" className={inputStyle} />
+                    <TextInput register={register} errors={errors} label="Skills Recommendations " name="profile.skillsRecommendations" className={inputStyle} />
                   </>
                 )}
                 {watch("profile.employmentStatus") === "unemployed" && (
@@ -292,7 +308,7 @@ export default function RegisterForm({ role }: { role?: string }) {
                   </>
                 )}
                 <TextInput register={register} errors={errors} label="Course Relevance" name="profile.courseRelevance" className={inputStyle} />
-                <TextInput register={register} errors={errors} label="Recommendations" name="profile.recommendations" className={inputStyle} />
+                <TextInput register={register} errors={errors} label="Recommendations  Kyambogo University" name="profile.recommendations" className={inputStyle} />
               </div>
             )}
 
