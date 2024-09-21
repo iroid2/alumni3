@@ -137,9 +137,7 @@ export default function AlumniTableDetails() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="  w-[100px] sm:table-cell">
-                <span className="">Image</span>
-              </TableHead>
+               
               <TableHead>Name</TableHead>
               <TableHead>Graduation Year</TableHead>
               <TableHead className="  md:table-cell">Course</TableHead>
@@ -154,7 +152,7 @@ export default function AlumniTableDetails() {
            {
             paginatedAlumni?.map((alumni,i)=>{
               return(    <TableRow key={alumni.id || i}>
-                <TableCell className="  sm:table-cell">
+                {/* <TableCell className="  sm:table-cell">
                   <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover"
@@ -162,7 +160,7 @@ export default function AlumniTableDetails() {
                     src="https://img.freepik.com/premium-photo/darkskinned-woman-with-afro-haircut-gazes-open-space-great-promotions_671421-215.jpg?w=740"
                     width="64"
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="font-medium">
                   {alumni.fullName}
                 </TableCell>

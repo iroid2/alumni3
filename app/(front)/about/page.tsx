@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div className='pt-[140px]'>
+    <div className=''>
       <PagesHero title='About'/>
      
       <div className="bg-gradient-to-b from-primary-50 to-white py-16 px-4">
