@@ -215,7 +215,7 @@ export default function RegisterForm({ role }: { role?: string }) {
 
             {step === 3 && (
               <div className="space-y-4">
-                <TextInput register={register} errors={errors} label="Contact Information" name="profile.contactInformation" className={inputStyle} />
+                 
                 <TextInput register={register} errors={errors} label="Phone Number" name="profile.phoneNumber" className={inputStyle} />
                 
                 <TextInput register={register} errors={errors} label="Local Residence" name="profile.localResidence" className={inputStyle} />
