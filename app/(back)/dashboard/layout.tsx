@@ -5,10 +5,8 @@ import { getServerSession } from 'next-auth'
 import React, { ReactNode } from 'react'
 
 export default async function layout({children}:{children:ReactNode}) {
-  // const session = await getServerSession(authOptions)
-  // const user = session?.user
-
-  // console.log(`Session User`, session?.user)
+  const session = await getServerSession(authOptions)
+  console.log(session)
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
     <Sidebar/>

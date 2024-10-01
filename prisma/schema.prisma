@@ -1,103 +1,103 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+  // This is your Prisma schema file,
+  // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+  // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+  // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+  }
 
-enum UserRole {
-  USER
-  ADMIN
- 
-}
- 
-model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  fullName          String?
-  email         String?   @unique
-  gender        String
-  maritalStatus        String
-  emailVerified DateTime?
-  password      String
+  enum UserRole {
+    USER
+    ADMIN
+  
+  }
+  
+  model User {
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    fullName          String?
+    email         String?   @unique
+    gender        String
+    maritalStatus        String
+    emailVerified DateTime?
+    password      String
 
-  image         String?
-  role          UserRole  @default(USER)
-  accounts      Account[]
-   
-  isVerfied     Boolean   @default(false)
-  token         Int       @default(1442678191)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  profile        Profile?
-}
+    image         String?
+    role          UserRole  @default(USER)
+    accounts      Account[]
+    
+    isVerfied     Boolean   @default(false)
+    token         Int       @default(1442678191)
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    profile        Profile?
+  }
 
-model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@unique([provider, providerAccountId])
-}
+  model Account {
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String
+    access_token      String? @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
+  
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+    @@unique([provider, providerAccountId])
+  }
 
-model Profile {
-  id                     String  @id @default(auto()) @map("_id") @db.ObjectId
-  user                   User    @relation(fields: [userId], references: [id])
-  userId                 String  @unique @db.ObjectId
-  profilePicture         String?
-  graduationYear         String?
-  degree                 String?
-  majorFieldOfStudy      String?
-  currentPosition        String?
-  contactInformation     String?
-  achievements           String?
-  biography              String?
-  interests              String?
-  socialMediaLinks       String?
-  alumniActivities       String?
-  permanentAddress       String?
-  phoneNumber            String?
-  dateOfBirth            String?
-  religiousAfflictions   String?
-  localResidence         String?
-  personalSkills         String?
-  courseStudied          String?
-  employmentStatus       String?
-  organization           String?
-  jobAcquisitionTime     String?
-  selectedAccordingToQualification String?
-  jobInLineWithStudy     String?
-  studyProgramRelevance  String?
-  curriculumRecommendations String?
-  businessType           String?
-  businessRelatedToStudy String?
-  selfEmploymentReason   String?
-  capitalSource          String?
-  skillsRelevance        String?
-  skillsRecommendations  String?
-  employedBefore         String?
-  reasonLeftJob          String?
-  skillsNeeded           String?
-  supportNeeded          String?
-  courseRelevance        String?
-  recommendations        String?
-}
+  model Profile {
+    id                     String  @id @default(auto()) @map("_id") @db.ObjectId
+    user                   User    @relation(fields: [userId], references: [id])
+    userId                 String  @unique @db.ObjectId
+    profilePicture         String?
+    graduationYear         String?
+    degree                 String?
+    majorFieldOfStudy      String?
+    currentPosition        String?
+    contactInformation     String?
+    achievements           String?
+    biography              String?
+    interests              String?
+    socialMediaLinks       String?
+    alumniActivities       String?
+    permanentAddress       String?
+    phoneNumber            String?
+    dateOfBirth            String?
+    religiousAfflictions   String?
+    localResidence         String?
+    personalSkills         String?
+    courseStudied          String?
+    employmentStatus       String?
+    organization           String?
+    jobAcquisitionTime     String?
+    selectedAccordingToQualification String?
+    jobInLineWithStudy     String?
+    studyProgramRelevance  String?
+    curriculumRecommendations String?
+    businessType           String?
+    businessRelatedToStudy String?
+    selfEmploymentReason   String?
+    capitalSource          String?
+    skillsRelevance        String?
+    skillsRecommendations  String?
+    employedBefore         String?
+    reasonLeftJob          String?
+    skillsNeeded           String?
+    supportNeeded          String?
+    courseRelevance        String?
+    recommendations        String?
+  }
 

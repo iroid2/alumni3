@@ -28,11 +28,11 @@ export default function SidebarLinks() {
         { name: "Profile", path: "/dashboard/profile", icon: <User className="h-5 w-5"/> },
         { name: "Edit Profile", path: "/dashboard/profile/edit", icon: <Edit  className="h-5 w-5"/> },
         { name: "Alumni Directory", path: "/dashboard/alumni-directory", icon: <Users className="h-5 w-5"/> },
-        { name: "Messages", path: "/dashboard/messages", icon: <MessageSquare className="h-5 w-5" /> },
-        { name: "Events", path: "/dashboard/events", icon: <Calendar className="h-5 w-5" /> },
-        { name: "Job Board", path: "/dashboard/jobs", icon: <Briefcase className="h-5 w-5" /> },
-        { name: "Alumni Stories", path: "/dashboard/stories", icon: <BookOpen className="h-5 w-5"/> },
-        { name: "Settings", path: "/dashboard/settings", icon: <Settings className="h-5 w-5"/> },
+        // { name: "Messages", path: "/dashboard/messages", icon: <MessageSquare className="h-5 w-5" /> },
+        // { name: "Events", path: "/dashboard/events", icon: <Calendar className="h-5 w-5" /> },
+        // { name: "Job Board", path: "/dashboard/jobs", icon: <Briefcase className="h-5 w-5" /> },
+        // { name: "Alumni Stories", path: "/dashboard/stories", icon: <BookOpen className="h-5 w-5"/> },
+        // { name: "Settings", path: "/dashboard/settings", icon: <Settings className="h-5 w-5"/> },
         { name: "Logout", path: "/logout", icon: <LogOut className="h-5 w-5"/> }
       ];
       

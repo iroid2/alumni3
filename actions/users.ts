@@ -54,7 +54,10 @@ export async function createUser(data: any) {
         role,
         token: userToken,
         profile: {
-          create: profile // This will create the profile with all the fields
+          create: {
+            ...profile,
+            employmentStatus: profile.employmentStatus || 'Unemployed' // Set a default if not provided
+          }
         }
       },
       include: {

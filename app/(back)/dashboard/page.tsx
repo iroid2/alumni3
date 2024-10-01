@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
 import { FaUserGraduate, FaBriefcase, FaCalendarAlt, FaChartLine } from 'react-icons/fa'
+import { useSession, signOut } from 'next-auth/react'
 
 // Add this type definition for the StatCard props
 type StatCardProps = {
