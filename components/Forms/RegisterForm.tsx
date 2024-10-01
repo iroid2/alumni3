@@ -26,13 +26,11 @@ export type RegisterProps = {
     degree: string;
     majorFieldOfStudy: string;
     currentPosition: string;
-    contactInformation: string;
+    
     achievements?: string;
-    biography?: string;
-    interests?: string;
-    socialMediaLinks?: string;
+    
     alumniActivities?: string;
-    permanentAddress?: string;
+   
     phoneNumber?: string;
     dateOfBirth?: string;
     religiousAfflictions?: string;
@@ -200,7 +198,7 @@ export default function RegisterForm({ role }: { role?: string }) {
               <div className="space-y-4">
                 <TextInput register={register} errors={errors} label="Graduation Year" name="profile.graduationYear" type="number" className={inputStyle} rules={{ required: "Graduation year is required" }} />
                 <div>
-                  <label htmlFor="degree" className={labelStyle}>Degree</label>
+                  <label htmlFor="degree" className={labelStyle}>Degree Attained</label>
                   <select {...register("profile.degree", { required: "Degree is required" })} className={selectStyle}>
                     <option value="">Select Degree</option>
                     <option value="bachelor">Bachelor's</option>
@@ -219,7 +217,7 @@ export default function RegisterForm({ role }: { role?: string }) {
               <div className="space-y-4">
                 <TextInput register={register} errors={errors} label="Contact Information" name="profile.contactInformation" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Phone Number" name="profile.phoneNumber" className={inputStyle} />
-                <TextInput register={register} errors={errors} label="Permanent Address" name="profile.permanentAddress" className={inputStyle} />
+                
                 <TextInput register={register} errors={errors} label="Local Residence" name="profile.localResidence" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Date of Birth" name="profile.dateOfBirth" type="date" className={inputStyle} />
                 {/* <TextInput register={register} errors={errors} label="Religious Affiliations" name="profile.religiousAfflictions" className={inputStyle} /> */}
@@ -236,9 +234,9 @@ export default function RegisterForm({ role }: { role?: string }) {
             {step === 4 && (
               <div className="space-y-4">
                 {/* <TextInput register={register} errors={errors} label="Achievements" name="profile.achievements" className={inputStyle} /> */}
-                <TextInput register={register} errors={errors} label="Biography" name="profile.biography" className={inputStyle} />
-                <TextInput register={register} errors={errors} label="Interests" name="profile.interests" className={inputStyle} />
-                <TextInput register={register} errors={errors} label="Social Media Links" name="profile.socialMediaLinks" className={inputStyle} />
+                 
+             
+               
                 <TextInput register={register} errors={errors} label="Alumni Activities" name="profile.alumniActivities" className={inputStyle} />
                 <TextInput register={register} errors={errors} label="Personal Skills" name="profile.personalSkills" className={inputStyle} />
               </div>

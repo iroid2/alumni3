@@ -67,13 +67,12 @@
     degree                 String?
     majorFieldOfStudy      String?
     currentPosition        String?
-    contactInformation     String?
+    
     achievements           String?
-    biography              String?
-    interests              String?
-    socialMediaLinks       String?
+    
+   
     alumniActivities       String?
-    permanentAddress       String?
+ 
     phoneNumber            String?
     dateOfBirth            String?
     religiousAfflictions   String?

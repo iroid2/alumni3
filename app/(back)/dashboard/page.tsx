@@ -1,12 +1,12 @@
 import { Card } from '@/components/ui/card'
 import { authOptions } from '@/lib/authOptions'
+import db from '@/utils/db'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
 import { FaUserGraduate, FaBriefcase, FaCalendarAlt, FaChartLine } from 'react-icons/fa'
-import { useSession, signOut } from 'next-auth/react'
+ 
 
-// Add this type definition for the StatCard props
 type StatCardProps = {
   title: string;
   icon: React.ReactNode;
@@ -18,18 +18,37 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
   const user = session?.user
 
-  // TODO: Replace these with actual data from your database
+  // Fetch actual data from your database
+  const totalAlumni = await db.user.count()
+  const profilesCount = await db.profile.count()
+  const employedAlumni = await db.profile.count({
+    where: { employmentStatus: 'Employed' }
+  })
+  const selfEmployedAlumni = await db.profile.count({
+    where: { employmentStatus: 'Self-employed' }
+  })
+  const unemployedAlumni = await db.profile.count({
+    where: { employmentStatus: 'Unemployed' }
+  })
+  const internationalAlumni = await db.profile.count({
+    where: { localResidence: { not: 'Local' } }
+  })
+  const alumniWithDegree = await db.profile.count({
+    where: { degree: { not: null } }
+  })
+  const alumniWithMajor = await db.profile.count({
+    where: { majorFieldOfStudy: { not: null } }
+  })
+
   const stats = {
-    totalAlumni: 1250,
-    employedAlumni: 1050,
-    averageSalary: 75000,
-    internationalAlumni: 180,
-    upcomingEvents: 5,
-    activeJobPostings: 42,
-    alumniEngagement: 78,
-    skillEndorsements: 3200,
-    mentorshipConnections: 95,
-    donationsThisYear: 150000,
+    totalAlumni,
+    profilesCount,
+    employedAlumni,
+    selfEmployedAlumni,
+    unemployedAlumni,
+    internationalAlumni,
+    alumniWithDegree,
+    alumniWithMajor,
   }
 
   return (
@@ -45,32 +64,32 @@ export default async function DashboardPage() {
           icon={<FaUserGraduate className="text-purple-500" size={24} />}
           stats={[
             { label: 'Total Alumni', value: stats.totalAlumni },
-            { label: 'Employed', value: `${(stats.employedAlumni / stats.totalAlumni * 100).toFixed(1)}%` },
+            { label: 'With Profiles', value: stats.profilesCount },
             { label: 'International', value: stats.internationalAlumni },
           ]}
           link="/dashboard/alumni"
         />
         
         <StatCard
-          title="Career Insights"
+          title="Employment Status"
           icon={<FaBriefcase className="text-blue-500" size={24} />}
           stats={[
-            { label: 'Avg. Salary', value: `$${stats.averageSalary.toLocaleString()}` },
-            { label: 'Active Job Postings', value: stats.activeJobPostings },
-            { label: 'Skill Endorsements', value: stats.skillEndorsements },
+            { label: 'Employed', value: stats.employedAlumni },
+            { label: 'Self-employed', value: stats.selfEmployedAlumni },
+            { label: 'Unemployed', value: stats.unemployedAlumni },
           ]}
           link="/dashboard/careers"
         />
         
         <StatCard
-          title="Engagement"
+          title="Education Info"
           icon={<FaCalendarAlt className="text-green-500" size={24} />}
           stats={[
-            { label: 'Upcoming Events', value: stats.upcomingEvents },
-            { label: 'Engagement Rate', value: `${stats.alumniEngagement}%` },
-            { label: 'Mentorship Connections', value: stats.mentorshipConnections },
+            { label: 'With Degree Info', value: stats.alumniWithDegree },
+            { label: 'With Major Info', value: stats.alumniWithMajor },
+            { label: 'Profile Completion', value: `${((stats.profilesCount / stats.totalAlumni) * 100).toFixed(1)}%` },
           ]}
-          link="/dashboard/events"
+          link="/dashboard/education"
         />
       </div>
       
@@ -78,26 +97,34 @@ export default async function DashboardPage() {
         <Card className="p-6">
           <h3 className="text-xl font-bold mb-4 flex items-center">
             <FaChartLine className="mr-2 text-orange-500" />
-            Network Growth
+            Employment Trends
           </h3>
-          {/* Add a chart component here to show alumni network growth over time */}
-          <p className="text-gray-600">Visualize your network's growth here</p>
+          <p className="text-gray-600">
+            Employed: {((stats.employedAlumni / stats.profilesCount) * 100).toFixed(1)}%<br />
+            Self-employed: {((stats.selfEmployedAlumni / stats.profilesCount) * 100).toFixed(1)}%<br />
+            Unemployed: {((stats.unemployedAlumni / stats.profilesCount) * 100).toFixed(1)}%
+          </p>
         </Card>
         
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4">Top Industries</h3>
-          {/* Add a pie chart or bar chart showing top industries where alumni work */}
-          <p className="text-gray-600">Display top industries here</p>
+          <h3 className="text-xl font-bold mb-4">Education Overview</h3>
+          <p className="text-gray-600">
+            Alumni with degree info: {((stats.alumniWithDegree / stats.profilesCount) * 100).toFixed(1)}%<br />
+            Alumni with major info: {((stats.alumniWithMajor / stats.profilesCount) * 100).toFixed(1)}%
+          </p>
         </Card>
       </div>
       
       <div className="m-6">
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4">Recent Donations</h3>
-          <p className="text-2xl font-bold text-green-600">${stats.donationsThisYear.toLocaleString()}</p>
-          <p className="text-gray-600">Total donations this year</p>
-          <Link href="/dashboard/donations" className="text-purple-600 hover:underline mt-2 inline-block">
-            View all donations
+          <h3 className="text-xl font-bold mb-4">Alumni Insights</h3>
+          <p className="text-gray-600">
+            Total Alumni: {stats.totalAlumni}<br />
+            Alumni with profiles: {((stats.profilesCount / stats.totalAlumni) * 100).toFixed(1)}%<br />
+            International Alumni: {((stats.internationalAlumni / stats.profilesCount) * 100).toFixed(1)}%
+          </p>
+          <Link href="/dashboard/insights" className="text-purple-600 hover:underline mt-2 inline-block">
+            View detailed insights
           </Link>
         </Card>
       </div>
@@ -105,7 +132,6 @@ export default async function DashboardPage() {
   )
 }
 
-// Update the StatCard component with proper TypeScript typing
 function StatCard({ title, icon, stats, link }: StatCardProps) {
   return (
     <Card className="p-6">

@@ -25,9 +25,9 @@ import { Home, LineChart, Package, Package2, Settings, ShoppingCart, Users2 } fr
 export default function SidebarLinks() {
     const dashboardRoutes = [
         { name: "Home", path: "/dashboard", icon: <Home className="h-5  w-5"/> },
-        { name: "Profile", path: "/dashboard/profile", icon: <User className="h-5 w-5"/> },
-        { name: "Edit Profile", path: "/dashboard/profile/edit", icon: <Edit  className="h-5 w-5"/> },
-        { name: "Alumni Directory", path: "/dashboard/alumni-directory", icon: <Users className="h-5 w-5"/> },
+        { name: "employed", path: "/dashboard/employed", icon: <User className="h-5 w-5"/> },
+        { name: "Unemployed", path: "/dashboard/unemployed", icon: <Edit  className="h-5 w-5"/> },
+        { name: "self-employed", path: "/dashboard/self-employed", icon: <Users className="h-5 w-5"/> },
         // { name: "Messages", path: "/dashboard/messages", icon: <MessageSquare className="h-5 w-5" /> },
         // { name: "Events", path: "/dashboard/events", icon: <Calendar className="h-5 w-5" /> },
         // { name: "Job Board", path: "/dashboard/jobs", icon: <Briefcase className="h-5 w-5" /> },
@@ -37,13 +37,13 @@ export default function SidebarLinks() {
       ];
       
       // Admin-specific routes (if applicable)
-      const adminRoutes = [
-        { name: "User Management", path: "/dashboard/admin/users" }, // Manage users (approve, edit, delete)
-        { name: "Event Management", path: "/dashboard/admin/events" }, // Create, edit, and delete events
-        { name: "Job Management", path: "/dashboard/admin/jobs" }, // Approve, edit, and delete job postings
-        { name: "Content Management", path: "/dashboard/admin/stories" }, // Approve, edit, and delete alumni stories
-        { name: "Analytics", path: "/dashboard/admin/analytics" } // View site metrics and user engagement data
-      ];
+      // const adminRoutes = [
+      //   { name: "User Management", path: "/dashboard/admin/users" }, // Manage users (approve, edit, delete)
+      //   { name: "Event Management", path: "/dashboard/admin/events" }, // Create, edit, and delete events
+      //   { name: "Job Management", path: "/dashboard/admin/jobs" }, // Approve, edit, and delete job postings
+      //   { name: "Content Management", path: "/dashboard/admin/stories" }, // Approve, edit, and delete alumni stories
+      //   { name: "Analytics", path: "/dashboard/admin/analytics" } // View site metrics and user engagement data
+      // ];
   return (
     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
     <Link
@@ -74,7 +74,7 @@ export default function SidebarLinks() {
     }
     
     
-    <TooltipProvider>
+    {/* <TooltipProvider>
     <Tooltip>
       <TooltipTrigger asChild>
         <Link
@@ -130,7 +130,7 @@ export default function SidebarLinks() {
       </TooltipTrigger>
       <TooltipContent side="right">Analytics</TooltipContent>
     </Tooltip>
-   </TooltipProvider>
+   </TooltipProvider> */}
     
   </nav>
   )
